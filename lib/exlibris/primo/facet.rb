@@ -31,7 +31,8 @@ module Exlibris
       alias :count :size
 
       def facet_values
-        @facet_values ||= xml.root.search("//FACET_VALUES").collect do |facet_value|
+        @facet_values ||= xml.root.children.select{
+            |c| c.name =~ /FACET_VALUES/ }.collect do |facet_value|
           FacetValue.new(:raw_xml => facet_value.to_xml, :facet => self)
         end
       end
