@@ -42,6 +42,12 @@ module Exlibris
           (attr_read(method)) ? true : super
         end
 
+        # Bad hack to account for NUL change but only until restful Primo
+        def display_title
+          @display_title ||= (attr_read(:display_lds22) ||
+                              attr_read(:display_title))
+        end
+
         def attr_read method
           if("#{method}".start_with? "all_")
             (inner_text_all(xpathize(method)) || inner_text_all(controlize(method)))
